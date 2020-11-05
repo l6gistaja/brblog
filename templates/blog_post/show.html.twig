@@ -1,30 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BlogPost{% endblock %}
+{% block title %}{{ blog_post.title }}{% endblock %}
 
 {% block body %}
-    <h1>BlogPost</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ blog_post.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ blog_post.title }}</td>
-            </tr>
-            <tr>
-                <th>Body</th>
-                <td>{{ blog_post.body }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('blog_post_index') }}">back to list</a>
-
-    <a href="{{ path('blog_post_edit', {'id': blog_post.id}) }}">edit</a>
-
-    {{ include('blog_post/_delete_form.html.twig') }}
+	<br/>
+    <p><strong>{{ blog_post.title }}</strong></p>
+	<p>{{ blog_post.body }}</p>
 {% endblock %}
