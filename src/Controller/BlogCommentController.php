@@ -31,7 +31,7 @@ class BlogCommentController extends AbstractController
 		$entityManager = $this->getDoctrine()->getManager();
 		$entityManager->persist($blogComment);
 		$entityManager->flush();
-		return new JsonResponse(array('l' => __LINE__));
+		return new JsonResponse(__LINE__);
     }
 	
 	/**
@@ -56,7 +56,7 @@ class BlogCommentController extends AbstractController
 			->getRepository(BlogComment::class)
 			->find($request->get('id')));
 		$entityMgr->flush();
-		return new JsonResponse(array('l' => __LINE__));
+		return new JsonResponse(__LINE__);
     }
 	
 	/**
@@ -69,7 +69,7 @@ class BlogCommentController extends AbstractController
 		$blogComment = $entityManager->getRepository(BlogComment::class)->find($request->get('id'));
 		$blogComment->setHidden($request->get('hide'));
 		$entityManager->flush();
-		return new JsonResponse(array('l' => __LINE__));
+		return new JsonResponse(__LINE__);
     }
 
 }
