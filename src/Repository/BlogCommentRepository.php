@@ -19,6 +19,21 @@ class BlogCommentRepository extends ServiceEntityRepository
         parent::__construct($registry, BlogComment::class);
     }
 
+	public function findUpdates($postId, $last) {
+		$y = ['last' => -1, 'updates' => []];
+		foreach($this->createQueryBuilder('b')
+            ->andWhere('b.blogpost = :post and b.id > :last')
+            ->setParameter('post', $postId)
+			->setParameter('last', $last)
+            ->orderBy('b.id', 'ASC')
+            ->getQuery()
+            ->getResult() as $b) {
+				$y['updates'][] = $b->getBody();
+				if($b->getId() > $y['last']) { $y['last'] = $b->getId(); }
+			}
+        return count($y['updates']) ? $y : [];
+	}
+	
     // /**
     //  * @return BlogComment[] Returns an array of BlogComment objects
     //  */
@@ -47,4 +62,5 @@ class BlogCommentRepository extends ServiceEntityRepository
         ;
     }
     */
+	
 }

@@ -32,5 +32,16 @@ class BlogCommentController extends AbstractController
 		$entityManager->flush();
 		return new JsonResponse(array('l' => __LINE__));
     }
+	
+	/**
+     * @Route("/updates", name="blog_comment_updates", methods={"GET","POST"})
+     */
+    public function updates(Request $request): Response
+    {
+		return new JsonResponse($this->getDoctrine()->getRepository(BlogComment::class)->findUpdates(
+			$request->get('post'),
+			$request->get('last')
+		));
+    }
 
 }

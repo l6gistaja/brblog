@@ -17,29 +17,69 @@
 	</div>
 	<div class="form-group row">
 		<div class="col-sm-12">
-			<button class="btn btn-success" onclick="brblogCommentMgr.sendComment('{{ path('blog_comment_new') }}', this);">Post your comment</button>
+			<button class="btn btn-success" onclick="brblogCommentMgr.sendComment('{{ path('blog_comment_new') }}', this); return false;">Post your comment</button>
 		</div>
 	</div>
 	</form>
 	
 	{% for comment in blog_post.getBlogComments() %}<hr/>{{comment.body}}{% endfor %}
 	
+	<span id="comments_end"></span>
+	
 	<script>
 	var brblogCommentMgr = {
 	
+		lastId: 0,
+		postId: 0,
+		updatesUrl: '',
+		
 		sendComment: function(path, btn) {
-		console.log(path);
+			var b = btn;
 			$.ajax({
 				type: "POST",
 				url: path,
 				data: {
 					body: btn.form.body.value,
-					blogpost: btn.form.blogpost.value
+					blogpost: brblogCommentMgr.postId
+				},
+				success: function() {
+					b.form.body.value = '';
+				}
+			});
+		},
+		
+		timeout: function() {
+			setTimeout(function () {
+				brblogCommentMgr.displayNewComments();
+				brblogCommentMgr.timeout();
+			}, 5000);
+		},
+		
+		displayNewComments: function() {
+			$.ajax({
+				type: "POST",
+				url: brblogCommentMgr.updatesUrl,
+				data: {
+					post: brblogCommentMgr.postId,
+					last: brblogCommentMgr.lastId
+				},
+				success: function(data) {
+					if('last' in data) {
+						var i;
+						for(i in data.updates) { $('#comments_end').before('<hr/>'+data.updates[i]); }
+						brblogCommentMgr.lastId = data.last;
+					}
 				}
 			});
 		}
-	}
-	</script>
+		
+	};
 	
+	brblogCommentMgr.lastId = {% if blog_post.getBlogComments().empty() %} 0 {% else %} {{ blog_post.getBlogComments()|last.id }} {% endif %};
+	brblogCommentMgr.postId = {{ blog_post.id }};
+	brblogCommentMgr.updatesUrl = '{{ path('blog_comment_updates') }}';
+	brblogCommentMgr.timeout();
+	
+	</script>
 	
 {% endblock %}
