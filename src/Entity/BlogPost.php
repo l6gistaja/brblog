@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BlogPostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,16 @@ class BlogPost
      * @ORM\Column(type="text")
      */
     private $body;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BlogComment::class, mappedBy="blogpost", orphanRemoval=true)
+     */
+    private $blogComments;
+
+    public function __construct()
+    {
+        $this->blogComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -52,6 +64,36 @@ class BlogPost
     public function setBody(string $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BlogComment[]
+     */
+    public function getBlogComments(): Collection
+    {
+        return $this->blogComments;
+    }
+
+    public function addBlogComment(BlogComment $blogComment): self
+    {
+        if (!$this->blogComments->contains($blogComment)) {
+            $this->blogComments[] = $blogComment;
+            $blogComment->setBlogpost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlogComment(BlogComment $blogComment): self
+    {
+        if ($this->blogComments->removeElement($blogComment)) {
+            // set the owning side to null (unless already changed)
+            if ($blogComment->getBlogpost() === $this) {
+                $blogComment->setBlogpost(null);
+            }
+        }
 
         return $this;
     }

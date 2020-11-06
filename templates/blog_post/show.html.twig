@@ -3,7 +3,11 @@
 {% block title %}{{ blog_post.title }}{% endblock %}
 
 {% block body %}
+
 	<br/>
     <p><strong>{{ blog_post.title }}</strong></p>
 	<p>{{ blog_post.body }}</p>
+	
+	{% for comment in blog_post.getBlogComments() %}<hr/>{{comment.body}}{% endfor %}
+	
 {% endblock %}
