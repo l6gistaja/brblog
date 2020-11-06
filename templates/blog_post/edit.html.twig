@@ -17,7 +17,8 @@
 	{% for comment in blog_post.getBlogComments() %}
 	<div id="c_{{comment.id}}">
 	<br/>
-	<button class="badge badge-danger" onclick="return d({{comment.id}}); return true;">Delete</button><br/>
+	<button class="badge badge-danger" onclick="return d({{comment.id}}); return true;">Delete</button> 
+	<button class="badge badge-{{comment.hidden ? 'success' : 'warning'}}" onclick="return t({{comment.id}},this); return true;">{{comment.hidden ? 'Unhide' : 'Hide'}}</button><br/>
 	{{comment.body}}
 	</div>
 	{% endfor %}
@@ -30,6 +31,21 @@
 			url: '{{ path('blog_comment_delete') }}',
 			data: { id: id },
 			success: function(data) { $('#c_'+i).remove(); }
+		});
+	}
+	
+	function t(id, btn) {
+		var b = btn;
+		var h = $(b).hasClass('badge-warning') ? 1 : 0;
+		$.ajax({
+			type: "POST",
+			url: '{{ path('blog_comment_hide') }}',
+			data: { id: id, hide: h },
+			success: function(data) { 
+				$(b).removeClass('badge-' + (h ? 'warning' : 'success'));
+				$(b).addClass('badge-' + (h ? 'success' : 'warning'));
+				$(b).html(h ? 'Unhide' : 'Hide');
+			}
 		});
 	}
 	</script>

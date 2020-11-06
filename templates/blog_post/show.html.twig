@@ -22,7 +22,7 @@
 	</div>
 	</form>
 	
-	{% for comment in blog_post.getBlogComments() %}<hr/>{{comment.body}}{% endfor %}
+	{% for comment in blog_post.getBlogComments() %}{% if comment.hidden == 0 %}<hr/>{{comment.body}}{% endif %}{% endfor %}
 	
 	<span id="comments_end"></span>
 	

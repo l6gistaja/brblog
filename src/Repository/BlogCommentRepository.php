@@ -22,7 +22,7 @@ class BlogCommentRepository extends ServiceEntityRepository
 	public function findUpdates($postId, $last) {
 		$y = ['last' => -1, 'updates' => []];
 		foreach($this->createQueryBuilder('b')
-            ->andWhere('b.blogpost = :post and b.id > :last')
+            ->andWhere('b.blogpost = :post and b.hidden = 0 and b.id > :last')
             ->setParameter('post', $postId)
 			->setParameter('last', $last)
             ->orderBy('b.id', 'ASC')

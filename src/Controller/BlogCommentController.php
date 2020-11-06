@@ -24,6 +24,7 @@ class BlogCommentController extends AbstractController
     {
         $blogComment = new BlogComment();
 		$blogComment->setBody($request->get('body'));
+		$blogComment->setHidden(0);
 		$blogComment->setBlogpost($this->getDoctrine()
 			->getRepository(BlogPost::class)
 			->find($request->get('blogpost')));
@@ -55,6 +56,19 @@ class BlogCommentController extends AbstractController
 			->getRepository(BlogComment::class)
 			->find($request->get('id')));
 		$entityMgr->flush();
+		return new JsonResponse(array('l' => __LINE__));
+    }
+	
+	/**
+     * @Route("/hide", name="blog_comment_hide", methods={"GET","POST"})
+     */
+    public function hide(Request $request): Response
+    {
+		$this->denyAccessUnlessGranted('ROLE_ADMIN');
+		$entityManager = $this->getDoctrine()->getManager();
+		$blogComment = $entityManager->getRepository(BlogComment::class)->find($request->get('id'));
+		$blogComment->setHidden($request->get('hide'));
+		$entityManager->flush();
 		return new JsonResponse(array('l' => __LINE__));
     }
 

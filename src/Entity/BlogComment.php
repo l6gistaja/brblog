@@ -28,6 +28,11 @@ class BlogComment
      */
     private $blogpost;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $hidden;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +58,18 @@ class BlogComment
     public function setBlogpost(?BlogPost $blogpost): self
     {
         $this->blogpost = $blogpost;
+
+        return $this;
+    }
+
+    public function getHidden(): ?int
+    {
+        return $this->hidden;
+    }
+
+    public function setHidden(int $hidden): self
+    {
+        $this->hidden = $hidden;
 
         return $this;
     }
