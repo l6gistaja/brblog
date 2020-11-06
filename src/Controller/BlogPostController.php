@@ -30,6 +30,8 @@ class BlogPostController extends AbstractController
      */
     public function new(Request $request): Response
     {
+		$this->denyAccessUnlessGranted('ROLE_ADMIN');
+		
         $blogPost = new BlogPost();
         $form = $this->createForm(BlogPostType::class, $blogPost);
         $form->handleRequest($request);
@@ -63,6 +65,8 @@ class BlogPostController extends AbstractController
      */
     public function edit(Request $request, BlogPost $blogPost): Response
     {
+		$this->denyAccessUnlessGranted('ROLE_ADMIN');
+		
         $form = $this->createForm(BlogPostType::class, $blogPost);
         $form->handleRequest($request);
 
@@ -83,6 +87,8 @@ class BlogPostController extends AbstractController
      */
     public function delete(Request $request, BlogPost $blogPost): Response
     {
+		$this->denyAccessUnlessGranted('ROLE_ADMIN');
+		
         if ($this->isCsrfTokenValid('delete'.$blogPost->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($blogPost);

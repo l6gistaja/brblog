@@ -2,17 +2,16 @@
 
 {% block body %}
 
+	{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('blog_post_new') }}" class="badge badge-primary" role="button">Create new</a>{% endif %}
 	<br/>
-	
     <ol>
         {% for blog_post in blog_posts %}
-                <li><a href="{{ path('blog_post_edit', {'id': blog_post.id}) }}" class="badge badge-primary" role="button">Edit</a> <a href="{{ path('blog_post_show', {'id': blog_post.id}) }}">{{ blog_post.title }}</a></li>
+                <li>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('blog_post_edit', {'id': blog_post.id}) }}" class="badge badge-primary" role="button">Edit</a> {% endif %}
+				<a href="{{ path('blog_post_show', {'id': blog_post.id}) }}">{{ blog_post.title }}</a></li>
         {% else %}
             No records found!
         {% endfor %}
         </tbody>
     </ol>
-
-    <a href="{{ path('blog_post_new') }}" class="btn btn-primary" role="button">Create new</a>
 	
 {% endblock %}
