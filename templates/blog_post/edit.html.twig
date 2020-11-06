@@ -18,7 +18,7 @@
 	<div id="c_{{comment.id}}">
 	<br/>
 	<button class="badge badge-danger" onclick="return d({{comment.id}}); return true;">Delete</button> 
-	<button class="badge badge-{{comment.hidden ? 'success' : 'warning'}}" onclick="return t({{comment.id}},this); return true;">{{comment.hidden ? 'Unhide' : 'Hide'}}</button><br/>
+	<button class="badge badge-{{comment.hidden ? 'success' : 'warning'}}" onclick="return t({{comment.id}},this); return true;">{{comment.hidden ? 'Show' : 'Hide'}}</button> 
 	{{comment.body}}
 	</div>
 	{% endfor %}
@@ -44,7 +44,7 @@
 			success: function(data) { 
 				$(b).removeClass('badge-' + (h ? 'warning' : 'success'));
 				$(b).addClass('badge-' + (h ? 'success' : 'warning'));
-				$(b).html(h ? 'Unhide' : 'Hide');
+				$(b).html(h ? 'Show' : 'Hide');
 			}
 		});
 	}

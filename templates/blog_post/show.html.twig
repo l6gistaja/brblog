@@ -12,7 +12,7 @@
 	<input type="hidden" id="blogpost" name="blogpost" value="{{ blog_post.id }}"/>
 	<div class="form-group row">
 		<div class="col-sm-12">
-			<textarea class="form-control" id="body" name="body" placeholder="Write your comment here!"/></textarea>
+			<textarea class="form-control" id="body" name="body" placeholder="Write your comment here!"  maxlength="255"/></textarea>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -22,9 +22,9 @@
 	</div>
 	</form>
 	
-	{% for comment in blog_post.getBlogComments() %}{% if comment.hidden == 0 %}<hr/>{{comment.body}}{% endif %}{% endfor %}
+	{% for comment in blog_post.getBlogComments() %}{% if comment.hidden == 0 %}<div class="alert alert-info">{{comment.body}}</div>{% endif %}{% endfor %}
 	
-	<span id="comments_end"></span>
+	<span id="comments_end"></span><br/>
 	
 	<script>
 	var brblogCommentMgr = {
@@ -66,7 +66,7 @@
 				success: function(data) {
 					if('last' in data) {
 						var i;
-						for(i in data.updates) { $('#comments_end').before('<hr/>'+data.updates[i]); }
+						for(i in data.updates) { $('#comments_end').before('<div class="alert alert-info">'+data.updates[i]+'</div>'); }
 						brblogCommentMgr.lastId = data.last;
 					}
 				}
