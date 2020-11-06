@@ -2,8 +2,8 @@
 
 {% block body %}
 
-	{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('blog_post_new') }}" class="badge badge-primary" role="button">Create new</a>{% endif %}
-	<br/>
+	{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('blog_post_new') }}" class="btn btn-primary" role="button">Create new</a>{% endif %}
+	<br/><br/>
     <ol>
         {% for blog_post in blog_posts %}
                 <li>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('blog_post_edit', {'id': blog_post.id}) }}" class="badge badge-primary" role="button">Edit</a> {% endif %}
