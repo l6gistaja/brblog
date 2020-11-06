@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\BlogPost;
+use App\Entity\BlogComment;
 use App\Form\BlogPostType;
 use App\Repository\BlogPostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Psr\Log\LoggerInterface;
 
 /**
  * @Route("/blog/post")
@@ -63,7 +66,7 @@ class BlogPostController extends AbstractController
     /**
      * @Route("/{id}/edit", name="blog_post_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, BlogPost $blogPost): Response
+    public function edit(Request $request, BlogPost $blogPost, LoggerInterface $logger): Response
     {
 		$this->denyAccessUnlessGranted('ROLE_ADMIN');
 		
@@ -71,7 +74,7 @@ class BlogPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+			$this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('blog_post_index');
         }

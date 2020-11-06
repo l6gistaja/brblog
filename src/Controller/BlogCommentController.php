@@ -43,5 +43,19 @@ class BlogCommentController extends AbstractController
 			$request->get('last')
 		));
     }
+	
+	/**
+     * @Route("/delete", name="blog_comment_delete", methods={"GET","POST"})
+     */
+    public function delete(Request $request): Response
+    {
+		$this->denyAccessUnlessGranted('ROLE_ADMIN');
+		$entityMgr = $this->getDoctrine()->getManager();
+		$entityMgr->remove($this->getDoctrine()
+			->getRepository(BlogComment::class)
+			->find($request->get('id')));
+		$entityMgr->flush();
+		return new JsonResponse(array('l' => __LINE__));
+    }
 
 }
