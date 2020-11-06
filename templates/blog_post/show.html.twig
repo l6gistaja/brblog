@@ -8,6 +8,38 @@
     <p><strong>{{ blog_post.title }}</strong></p>
 	<p>{{ blog_post.body }}</p>
 	
+	<form>
+	<input type="hidden" id="blogpost" name="blogpost" value="{{ blog_post.id }}"/>
+	<div class="form-group row">
+		<div class="col-sm-12">
+			<textarea class="form-control" id="body" name="body" placeholder="Write your comment here!"/></textarea>
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-sm-12">
+			<button class="btn btn-success" onclick="brblogCommentMgr.sendComment('{{ path('blog_comment_new') }}', this);">Post your comment</button>
+		</div>
+	</div>
+	</form>
+	
 	{% for comment in blog_post.getBlogComments() %}<hr/>{{comment.body}}{% endfor %}
+	
+	<script>
+	var brblogCommentMgr = {
+	
+		sendComment: function(path, btn) {
+		console.log(path);
+			$.ajax({
+				type: "POST",
+				url: path,
+				data: {
+					body: btn.form.body.value,
+					blogpost: btn.form.blogpost.value
+				}
+			});
+		}
+	}
+	</script>
+	
 	
 {% endblock %}
