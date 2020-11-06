@@ -1,7 +1,7 @@
 # Installation
 
-1. ```git clone https://github.com/l6gistaja/brpblog.git```
-1. ```cd brpblog```
+1. ```git clone https://github.com/l6gistaja/brblog.git```
+1. ```cd brblog```
 1. ```composer install```
 1. create database
 1. configure database in .env variable DATABASE_URL
