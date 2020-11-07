@@ -2,6 +2,8 @@ Sample Symfony blog.
 
 # Installation
 
+Before this install you must have already installed: PHP>=7.2.5, Composer, MySQL, Git.
+ 
 1. ```git clone https://github.com/l6gistaja/brblog.git```
 1. ```cd brblog```
 1. ```composer install```
